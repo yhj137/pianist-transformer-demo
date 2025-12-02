@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pianist Transformer: Expressive Piano Performance Rendering</title>
+
+    <!-- Pico.css for a clean, modern look with no setup -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            --block-spacing-vertical: 2.5rem;
+        }
+        main {
+            max-width: 960px;
+            margin: auto;
+        }
+        header h1, header h2 {
+            text-align: center;
+            margin-bottom: 0.25rem;
+        }
+        .authors {
+            text-align: center;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .audio-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed; /*  <-- 添加这一行来让列宽均分 */
+        }
+        .audio-table th {
+            text-align: center;
+        }
+        .audio-table td {
+            padding: 0.75rem;
+            text-align: center;
+            vertical-align: top;
+        }
+        .audio-table .piece-title {
+            background-color: var(--card-background-color);
+            border-bottom: 2px solid var(--card-border-color);
+            padding: 0.5rem;
+            font-weight: bold;
+        }
+        .audio-table audio {
+            width: 100%;
+            max-width: 250px;
+        }
+        .highlight {
+            color: var(--primary);
+        }
+        figure {
+            margin-bottom: 1rem;
+        }
+        figcaption {
+            text-align: center;
+            color: var(--secondary);
+            font-size: 0.9em;
+        }
+        pre {
+            background-color: var(--card-background-color);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            font-size: 0.8em;
+            border: 1px solid var(--card-border-color);
+        }
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: var(--muted-color);
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <header>
+            <h1>Pianist Transformer</h1>
+            <h2>Towards Expressive Piano Performance Rendering via Scalable Self-Supervised Pre-Training</h2>
+            <!-- TODO: 确认作者列表和顺序 -->
+            <p class="authors">Hong-Jie You, Jie-Jing Shao, Xiao-Wen Yang, Lin-Han Jia, Lan-Zhe Guo, Yu-Feng Li</p>
+            
+            <nav>
+                <!-- TODO: 替换为你的真实链接 -->
+                <a href="https://arxiv.org/abs/XXXX.XXXXX" role="button" class="primary">📄 Paper (PDF)</a>
+                <a href="https://github.com/xxxx.xxxx" role="button" class="secondary">💻 GitHub (Code)</a>
+                <a href="https://huggingface.co/xxxx.xxxx" role="button" class="secondary">🤗 Hugging Face</a>
+            </nav>
+        </header>
+
+        <section id="abstract">
+            <h3>Abstract</h3>
+            <p>Existing methods for expressive music performance rendering rely on supervised learning over small labeled datasets, which limits scaling of both data volume and model size, despite the availability of vast unlabeled music, as in vision and language. To address this gap, we introduce Pianist Transformer, with four key contributions: 1) a unified Musical Instrument Digital Interface (MIDI) data representation for learning the shared principles of musical structure and expression without explicit annotation; 2) an efficient asymmetric architecture, enabling longer contexts and faster inference without sacrificing rendering quality; 3) a self-supervised pre-training pipeline with 10B tokens and 135M-parameter model, unlocking data and model scaling advantages for expressive performance rendering;  4) a state-of-the-art performance model, which achieves strong objective metrics and human-level subjective ratings. Overall, Pianist Transformer establishes a scalable path toward human-like performance synthesis in the music domain.</p>
+            
+            <figure>
+                <!-- TODO: 替换为你自己的方法架构图路径 (例如 Figure 2) -->
+                <img src="figures/figure2_architecture.png" alt="Architecture diagram of Pianist Transformer showing the workflow from pre-training on a massive unlabeled corpus to supervised fine-tuning and inference.">
+                <figcaption>The overall architecture and workflow of Pianist Transformer, featuring a unified tokenizer and an asymmetric Transformer for efficient, high-quality performance rendering.</figcaption>
+            </figure>
+        </section>
+        
+        <section id="demos">
+            <h2>Audio Demonstrations</h2>
+            <p>The following examples compare three versions of each piece: the mechanical playback of the score, the performance generated by our model, and a recording of a human performance. These comparisons highlight the model's generated nuances in timing (rubato), volume (dynamics), articulation and pedaling.</p>
+            
+            <table class="audio-table">
+                <thead>
+                    <tr>
+                        <th>Score</th>
+                        <th>Pianist Transformer</th>
+                        <th>Human Performance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="3" class="piece-title">Bach, J. S. — Prelude, BWV 885</td></tr>
+                    <tr>
+                        <!-- TODO: 替换为你的音频文件路径 -->
+                        <td><audio controls src="audios/3-s.mp3"></audio></td>
+                        <td><audio controls src="audios/3-our.mp3"></audio></td>
+                        <td><audio controls src="audios/3-h.mp3"></audio></td>
+                    </tr>
+
+                    <tr><td colspan="3" class="piece-title">Haydn, J. — Sonata No. 58 in C Major, Hob. XVI:48 (II)</td></tr>
+                    <tr>
+                        <!-- TODO: 替换为你的音频文件路径 -->
+                        <td><audio controls src="audios/14-s.mp3"></audio></td>
+                        <td><audio controls src="audios/14-our.mp3"></audio></td>
+                        <td><audio controls src="audios/14-h.mp3"></audio></td>
+                    </tr>
+
+                    <tr><td colspan="3" class="piece-title">Mozart, W. A. — Sonata No. 9 in A minor, K. 310, I</td></tr>
+                    <tr>
+                        <!-- TODO: 替换为你的音频文件路径 -->
+                        <td><audio controls src="audios/20-s.mp3"></audio></td>
+                        <td><audio controls src="audios/20-our.mp3"></audio></td>
+                        <td><audio controls src="audios/20-h.mp3"></audio></td>
+                    </tr>
+
+                    <tr><td colspan="3" class="piece-title">Beethoven, L. v. — Sonata No. 7 in D Major, Op. 10 No. 3, I</td></tr>
+                    <tr>
+                        <!-- TODO: 替换为你的音频文件路径 -->
+                        <td><audio controls src="audios/9-s.mp3"></audio></td>
+                        <td><audio controls src="audios/9-our.mp3"></audio></td>
+                        <td><audio controls src="audios/9-h.mp3"></audio></td>
+                    </tr>
+
+                    <tr><td colspan="3" class="piece-title">Chopin, F. — Sonata No. 3 in B-minor, Op. 58, IV</td></tr>
+                    <tr>
+                        <!-- TODO: 替换为你的音频文件路径 -->
+                        <td><audio controls src="audios/13-s.mp3"></audio></td>
+                        <td><audio controls src="audios/13-our.mp3"></audio></td>
+                        <td><audio controls src="audios/13-h.mp3"></audio></td>
+                    </tr>
+
+                    <tr><td colspan="3" class="piece-title">Liszt, F. — Étude d’exécution transcendante No. 1 “Preludio”, S. 139</td></tr>
+                    <tr>
+                        <!-- TODO: 替换为你的音频文件路径 -->
+                        <td><audio controls src="audios/16-s.mp3"></audio></td>
+                        <td><audio controls src="audios/16-our.mp3"></audio></td>
+                        <td><audio controls src="audios/16-h.mp3"></audio></td>
+                    </tr>
+
+                    <tr><td colspan="3" class="piece-title">Ravel, M. — Miroirs, III “Une barque sur l’océan”</td></tr>
+                    <tr>
+                        <!-- TODO: 替换为你的音频文件路径 -->
+                        <td><audio controls src="audios/21-s.mp3"></audio></td>
+                        <td><audio controls src="audios/21-our.mp3"></audio></td>
+                        <td><audio controls src="audios/21-h.mp3"></audio></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="results">
+            <h2>Subjective Evaluation Results</h2>
+            <p>We conducted a blind listening study where participants rated performances from our model, baseline models, and human pianists. The results indicate that our model's performances were rated as highly as the human performances and were preferred significantly over the baselines.</p>
+            <figure>
+                <!-- TODO: 替换为你的图片路径 -->
+                <img src="figures/figure3.png" alt="Graph showing subjective preference ranking results, where 'Ours' is ranked highest, slightly above 'Human'.">
+                <figcaption>Figure 3 from our paper: The average rank of our Pianist Transformer is statistically indistinguishable from the Human performance, demonstrating strong listener appeal.</figcaption>
+            </figure>
+        </section>
+
+        <section id="daw-integration">
+            <h2>Editable MIDI Output</h2>
+            <p>The model generates a standard MIDI file containing an editable tempo map created by our <strong>Expressive Tempo Mapping</strong> algorithm. This captures the performance's detailed timing variations. The resulting file can be imported directly into any Digital Audio Workstation (DAW) for further editing and use in music production.</p>
+            <figure>
+                <!-- TODO: 强烈建议在此处替换为一个展示DAW中动态速度轨道的GIF或短视频 -->
+                <img src="figures/daw_demo.png" alt="A GIF showing a MIDI file being dragged into a DAW, with the tempo track visible and fluctuating during playback.">
+                <figcaption>The generated performance can be imported into any DAW, preserving expressive timing as an editable tempo map.</figcaption>
+            </figure>
+        </section>
+        
+        <!-- NEW SECTION for the GUI -->
+        <section id="gui-tool">
+            <h2>Try the GUI</h2>
+            <p>To make our model more accessible, we offer a desktop GUI for easy experimentation. This provides a user-friendly interface for generating expressive performances without writing any code. For download and instructions, please visit our GitHub repository.</p>
+            <figure>
+                <!-- TODO: 确保你已经将GUI截图保存为 'gui_screenshot.png' 并放在 'figures' 文件夹中 -->
+                <img src="figures/gui_en.png" alt="Screenshot of the Pianist Transformer GUI application.">
+                <figcaption>The Pianist Transformer GUI provides an intuitive interface for generating and comparing expressive performances.</figcaption>
+            </figure>
+            <div style="text-align: center;">
+                <!-- TODO: 替换为你的GitHub仓库链接 -->
+                <a href="https://github.com/xxxx.xxxx" role="button">Get the GUI on GitHub</a>
+            </div>
+        </section>
+
+        <section id="citation">
+            <h2>Citation</h2>
+            <p>If you find our work useful, please consider citing our paper:</p>
+            <pre><code>Coming soon...</code></pre>
+        </section>
+
+        <footer>
+            <p>Pianist Transformer Project Page</p>
+        </footer>
+    </main>
+</body>
+</html>
